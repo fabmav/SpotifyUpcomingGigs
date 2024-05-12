@@ -10,7 +10,8 @@ from dotenv import load_dotenv
 import sqlite3
 import sys
 sys.path.append(os.getcwd())
-from MesFonctions_Spotify import julian_date
+#!à rajouter
+#from MesFonctions_Spotify import julian_date
 
 #les variables sont le fichier .env, il faut les charger
 load_dotenv()
