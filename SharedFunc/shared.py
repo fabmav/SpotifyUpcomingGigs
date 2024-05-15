@@ -1,6 +1,7 @@
 #functions shared accross multiple librairies
 import logging
 import sqlite3
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -54,6 +55,14 @@ def write_to_db(db) :
             conn.close()
         return wrapper
     return decorator
+
+def julian_date (date) : 
+    jul_detector = re.compile(r'\d{4}-\d{2}-\d{2}')
+    if jul_detector.match(date) : 
+        return date
+    else : 
+        jul_dat=date[-4:]+"-"+date[3:5]+"-"+date[:2]
+        return jul_dat
 
 if __name__ == "__main__" : 
     None
