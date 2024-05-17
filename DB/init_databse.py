@@ -2,7 +2,7 @@ import sqlite3
 import os
 
 #*création et administration high level de la database des concerts à venir
-conn= sqlite3.connect('db_concertavenir.sqlite')
+conn= sqlite3.connect('database/UpcomingGigs.sqlite')
 cursor = conn.cursor()
 
 conn.execute("""CREATE TABLE evenements (

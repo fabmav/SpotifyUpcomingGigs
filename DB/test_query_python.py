@@ -1,17 +1,7 @@
-import sqlite3
+import sys
 import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from SharedFunc.dbfunc import *
 
-#*test de la database
-conn= sqlite3.connect('db_concertavenir.sqlite')
-cursor = conn.cursor()
-
-cursor.execute('SELECT rowid,* FROM evenements')
-
-print(cursor.fetchall())
-
-
-# Close the cursor and the connection
-cursor.close()
-conn.close()
-
+print(select_all())
 

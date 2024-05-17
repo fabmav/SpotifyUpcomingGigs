@@ -2,8 +2,9 @@
 #sur le périmètre des petites salles parisiennes
 #* v2 : update de la requête de recherche sur l'api
 import sys
-sys.path.append('/SharedFunc')
-from SharedFunc.shared import *
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from SharedFunc import shared
 import os
 import requests
 import json
@@ -45,7 +46,7 @@ def get_sowprog_full(url,header) :
     for item in reponse["eventDescription"] : 
 
         event_salle = item["location"]["name"]
-        event_date = julian_date(item["eventSchedule"]["startDate"])
+        event_date = shared.julian_date(item["eventSchedule"]["startDate"])
         event_description = item["event"]["description"]
         event_genre = item["event"]["eventStyle"]["label"]
 
@@ -54,11 +55,10 @@ def get_sowprog_full(url,header) :
             c = item["artist"]
             for artist in c : 
                 event_artist=artist["name"]
+                #! à revoir, respecter l'ordre des colonnes de la database
                 temp=(event_artist,event_artist,event_date,event_salle,event_description,event_genre)
                 liste.append(temp)
     return liste
-
-
 
 if __name__ == "__main__" :
 #les variables sont le fichier .env, il faut les charger
@@ -86,3 +86,5 @@ if __name__ == "__main__" :
 
     #ça nous permet d'obtenir la chaîne suivante
     url = f"https://agenda.sowprog.com/rest/v1_2/scheduledEvents/search?{param_style}{param_geo}"
+
+    shared.write_to_db("database/UpcomingGigs.sqlite")(get_sowprog_full)(url,header)

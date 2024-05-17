@@ -6,7 +6,7 @@
 {
   "name": "SQLite",
   "driver": "SQLite",
-  "database": "./sqlite/db_concertavenir.sqlite",
+  "database": "./database/UpcomingGigs.sqlite",
   "connectionTimeout": 15
 }
 

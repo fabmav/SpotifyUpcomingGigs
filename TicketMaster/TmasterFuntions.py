@@ -120,6 +120,7 @@ def get_tmaster_data_full(page,url) :
                         if artist_spotify_uri != None :
                             temp=(event_artist,event_artist,event_date,event_venue,artist_spotify_uri[2],event_genre)
                             liste.append(temp)
+    return liste
 
 
 #DECORATORS
@@ -164,7 +165,10 @@ def write_to_db(db) :
                     uri_artiste,
                     genre) VALUES (?,?,?,?,?,?);'''
             # Execute the SQL statement to insert multiple rows of data
-            cursor.executemany(insert_query, result)
+            try :
+                cursor.executemany(insert_query, result)
+            except Exception as e : 
+                print(e)
             # Commit the changes to the database
             conn.commit()
             # Close the cursor and the connection
@@ -266,5 +270,5 @@ if __name__ == "__main__" :
 
     #tmaster_main() 
 
-    tmaster_main(baseUrl=base_url,writeFile=f'test-{TODAY}.txt',genreFile=h_out,
-                 funcDeco=json_write_to_file,funcQuery=get_tmaster_raw)
+    tmaster_main(baseUrl=base_url,writeFile='database/UpcomingGigs.sqlite',genreFile=h_out,
+                 funcDeco=write_to_db,funcQuery=get_tmaster_data_full)
