@@ -21,13 +21,14 @@ load_dotenv()
 logger = logging.getLogger(__name__)
 
 #getting ticket master key. Only the public key is needed for this script
-CLIENT_ID = os.getenv("TMASTER_PUBLIC")
+CLIENT_ID = os.getenv("TMASTER_PUB_KEY")
+print(CLIENT_ID)
 
 #getting the date
 TODAY = datetime.now(tz=timezone.utc).strftime("%Y-%m-%d")
 
 #getting the genres 
-GENRE_FILE = 'TicketMaster/tmaster_genre.txt'
+GENRE_FILE = 'functions/TicketMaster/tmaster_genre.txt'
         
 
 #to get the total page of a request
@@ -228,8 +229,9 @@ def tmaster_main(baseUrl,writeFile,genreFile,funcDeco,funcQuery) :
             except Exception as e : 
                 if compteur == 5 : 
                     print("echec obtention nombre de page")
+                    nb_page = 0
                     break
-
+        print(nb_page)
 
         #step 4 : on va itérer sur chaque page
         #! à craquer : soit il y a 0 pages et j'ai une réponse de 325 caractères donc 1 page
@@ -251,7 +253,7 @@ if __name__ == "__main__" :
     logging.basicConfig(filename=f'log/spotify_upcoming_gigs{TODAY}.log', level=logging.INFO) 
 
     #on récupère les clés
-    CLIENT_ID = os.getenv("TMASTER_PUBLIC")
+    CLIENT_ID = os.getenv("TMASTER_PUB_KEY")
     #client_secret = os.getenv("TMASTER_PRIV_KEY")
     
     #les data dont on a besoin : 

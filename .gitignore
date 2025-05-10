@@ -1,3 +1,8 @@
-.env
+#secrets and public keys
+.venv
+#logging
 log/
+#secrets and public keys
+.env
+#database
 database/

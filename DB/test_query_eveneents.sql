@@ -1,6 +1,6 @@
 //settings.json example
 {
-  "sqltools.useNodeRuntime": true
+  "sqltools.useNodeRuntime": false
 }
 
 {
