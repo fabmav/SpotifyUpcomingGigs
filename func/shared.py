@@ -47,7 +47,10 @@ def write_to_db(db) :
                     uri_artiste,
                     genre) VALUES (?,?,?,?,?,?);'''
             # Execute the SQL statement to insert multiple rows of data
-            cursor.executemany(insert_query, result)
+            try :
+                cursor.executemany(insert_query, result)
+            except Exception as e : 
+                print(e)
             # Commit the changes to the database
             conn.commit()
             # Close the cursor and the connection
@@ -55,6 +58,22 @@ def write_to_db(db) :
             conn.close()
         return wrapper
     return decorator
+
+def write_to_db_lite(db,query,request_output) : 
+    conn= sqlite3.connect(db)
+    cursor = conn.cursor()
+    # Execute the SQL statement to insert multiple rows of data
+    try :
+        cursor.executemany(query,request_output)
+    except Exception as e : 
+        print(e)
+    # Commit the changes to the database
+    conn.commit()
+    # Close the cursor and the connection
+    cursor.close()
+    conn.close()
+
+
 
 def julian_date (date) : 
     jul_detector = re.compile(r'\d{4}-\d{2}-\d{2}')

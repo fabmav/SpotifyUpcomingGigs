@@ -14,7 +14,7 @@ from requests import get
 from dotenv import load_dotenv
 import os
 import json
-from TmasterFuntions import*
+from func.TmasterFuntions import*
 import re
 
 load_dotenv()

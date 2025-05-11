@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: spotify_upcoming_gigs
+Version: 0.1.0
+Summary: Retrieving artists playing in the coming weeks in Paris
+Author: fabmav
+Requires-Dist: requests>=2.25
+Dynamic: author
+Dynamic: requires-dist
+Dynamic: summary

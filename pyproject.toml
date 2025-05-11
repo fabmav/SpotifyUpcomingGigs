@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spotify_upcoming_gigs"
+version = "0.1.0"
+description = "Retrieving artists playing in the coming weeks in Paris"
+authors = [
+  { name = "fammav" }
+]
+dependencies = ["requests >= 2.25"]

@@ -1,15 +1,16 @@
 #ce programme se connecte à l'API sowprog pour récupérer les concerts à venir 
 #sur le périmètre des petites salles parisiennes
 #* v2 : update de la requête de recherche sur l'api
+
+from func.shared import julian_date
 import os
 import requests
 import json
 import base64
-import re
 from dotenv import load_dotenv
 import sqlite3
-import sys
-sys.path.append(os.getcwd())
+
+
 #!à rajouter
 #from MesFonctions_Spotify import julian_date
 

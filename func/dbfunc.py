@@ -11,7 +11,7 @@ def open_db(func) :
     def wrapper(*args,**kwargs) : 
         conn= sqlite3.connect(DB)
         cursor = conn.cursor()
-        result = func(conn, cursor,*args,**kwargs) 
+        result = func(*args,**kwargs) 
         cursor.close()
         conn.close()
         return result

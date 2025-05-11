@@ -150,42 +150,13 @@ def json_write_to_file(file) :
         return wrapper
     return decorator
 
-
-def write_to_db(db) : 
-    def decorator(func) : 
-        def wrapper(*args,**kwargs) : 
-            result = func(*args,**kwargs)
-            conn= sqlite3.connect(db)
-            cursor = conn.cursor()
-            # Define the SQL statement to insert data into the table
-            insert_query = '''INSERT INTO evenements (
-                    nom_evenement,
-                    artiste,
-                    date,
-                    salle,
-                    uri_artiste,
-                    genre) VALUES (?,?,?,?,?,?);'''
-            # Execute the SQL statement to insert multiple rows of data
-            try :
-                cursor.executemany(insert_query, result)
-            except Exception as e : 
-                print(e)
-            # Commit the changes to the database
-            conn.commit()
-            # Close the cursor and the connection
-            cursor.close()
-            conn.close()
-        return wrapper
-    return decorator
-
-
 #les data dont on a besoin : 
 #l'url de base de l'api ticket master
-root_url = "https://app.ticketmaster.com/discovery/v2/"
+ROOT_URL = "https://app.ticketmaster.com/discovery/v2/"
 #le end point pour récupérer des infos sur l'event
-end_point = "events.json?"
+END_POINT = "events.json?"
 #le texte à ajouter pour ajouter la clé secrète
-api_key=f'apikey={CLIENT_ID}'
+API_KEY=f'apikey={CLIENT_ID}'
 #la recherche : un point sité dans paris centre : 48.8563763,2.351896
 # radius de 12km
 search_pre = "&latlong=48.8563763,2.3518962&radius=12&unit=km&countryCode=FR&locale=*&size=200&genreId="
@@ -199,7 +170,7 @@ search_pre = "&latlong=48.8563763,2.3518962&radius=12&unit=km&countryCode=FR&loc
 
 
 #! voir à quel niveau on écrit le code
-def tmaster_main(baseUrl,writeFile,genreFile,funcDeco,funcQuery) :
+def tmaster_main(baseUrl,genreFile, funcQuery) :
     '''this function retrieves genres stored in a text file,executes a query to get total number of page from Ticket Master, 
     then executes the desired query (the url) and generate an outputs in the desired format
     url : query url
@@ -208,6 +179,9 @@ def tmaster_main(baseUrl,writeFile,genreFile,funcDeco,funcQuery) :
     funcQuery : the function parsing the json output'''
     #step 1 : on choisit l'un des genre dans la liste
 
+    liste =[]
+
+    #TODO à encapsuler dans une fonction spécifique à ticket master
     for ligne in genreFile : 
         genre=re.search("(.*) - (.+)",ligne)
         search=f'{search_pre}{genre[2]}'
@@ -240,8 +214,10 @@ def tmaster_main(baseUrl,writeFile,genreFile,funcDeco,funcQuery) :
         i=0
         while i <= nb_page : 
             #l'url complétée avec le nombre de page
-            funcDeco(writeFile)(funcQuery)(i,query_url)
+            liste_temp = funcQuery(i,query_url)
+            liste.extend(liste_temp)
             i+=1
+    return liste
 
 #on ferme les fichiers
 #f_out.close()
@@ -249,28 +225,4 @@ def tmaster_main(baseUrl,writeFile,genreFile,funcDeco,funcQuery) :
 #h_out.close()
 
 if __name__ == "__main__" : 
-
-    logging.basicConfig(filename=f'log/spotify_upcoming_gigs{TODAY}.log', level=logging.INFO) 
-
-    #on récupère les clés
-    CLIENT_ID = os.getenv("TMASTER_PUB_KEY")
-    #client_secret = os.getenv("TMASTER_PRIV_KEY")
-    
-    #les data dont on a besoin : 
-    #l'url de base de l'api ticket master
-    root_url = "https://app.ticketmaster.com/discovery/v2/"
-    #le end point pour récupérer des infos sur l'event
-    end_point = "events.json?"
-    #le texte à ajouter pour ajouter la clé secrète
-    api_key=f'apikey={CLIENT_ID}'
-    #la recherche : un point sité dans paris centre : 48.8563763,2.351896
-    base_url=root_url+end_point+api_key
-    # radius de 12km
-    #search_pre = "&latlong=48.8563763,2.3518962&radius=12&unit=km&countryCode=FR&locale=*&size=200&genreId="
-   
-    h_out = open(GENRE_FILE,'r',encoding='UTF-8')
-
-    #tmaster_main() 
-
-    tmaster_main(baseUrl=base_url,writeFile='database/UpcomingGigs.sqlite',genreFile=h_out,
-                 funcDeco=write_to_db,funcQuery=get_tmaster_data_full)
+    None
