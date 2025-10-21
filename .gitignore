@@ -6,3 +6,9 @@ log/
 .env
 #database
 database/
+#Old
+old/
+#backup
+bup/
+#history rewrite
+git-filter-repo

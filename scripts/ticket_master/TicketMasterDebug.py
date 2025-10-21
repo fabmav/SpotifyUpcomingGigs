@@ -1,14 +1,8 @@
-
-#* this script gets upcoming gigs in Paris France and its surroundings
-#* il sauve dans "test_tmaster_event.txt" la réponse json globale
-#* il sauve dans "test_tmaster_event_detail_2.txt" le nom des artistes et l'uri spotify
-
-#import des modules : request pour interragir avec l'api ticketmaser
-#dotenv pour récupérer la clé secrète de l'api
-#re pour travailler sur les données textuelles
-
+#extraction of raw ticket master query
+import os
+print(os.getcwd())
 from func import requests, load_dotenv, os, json, re, sqlite3, logging, datetime, timezone, DB
-from func.TmasterFuntions import tmaster_main, get_tmaster_data_full
+from func.TmasterFuntions import tmaster_main, get_tmaster_raw
 from func.shared import write_to_db_lite
 
 #getting the date
@@ -36,15 +30,9 @@ base_url=ROOT_URL+END_POINT+API_KEY
 # radius de 12km
 #search_pre = "&latlong=48.8563763,2.3518962&radius=12&unit=km&countryCode=FR&locale=*&size=200&genreId="
 
-QUERY = '''INSERT INTO evenements (
-                nom_evenement,
-                artiste,
-                date,
-                salle,
-                uri_artiste,
-                genre,
-                description_event) VALUES (?,?,?,?,?,?,?);'''
 
-result = tmaster_main(baseUrl=base_url,genreFile=genres,funcQuery=get_tmaster_data_full)
+result = tmaster_main(baseUrl=base_url,genreFile=genres,funcQuery=get_tmaster_raw)
 
-write_to_db_lite(db=DB,query=QUERY,request_output=result)
+with open(file='log/tmaster_raw.txt',mode='w',encoding='UTF-8') as file : 
+    for line in result : 
+        file.write(line)

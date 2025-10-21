@@ -10,6 +10,7 @@ with open('liste_concert_dice.txt','r',encoding='UTF-8') as fichier_dice :
         liste.append(nom)
 print(liste)
 
+#suppression des doublons
 for i in liste : 
     if liste.count(i)>1 : 
         liste.remove(i)
@@ -29,14 +30,15 @@ for index,i in enumerate(liste) :
         liste.insert(index,new[1])
 
 # on enlève les trucs du style 'concert : '
-rech=re.compile(r'[cC]oncert [:-•] ')
+rech=re.compile(r'[cC]oncert [-:+•—] ')
 for index,i in enumerate(liste) : 
     if rech.findall(i) !=[] : 
         new=re.split(rech,i)
         liste.remove(i)
         liste.insert(index,new[1])
 
-rech=re.compile(r' ?[\+|] ?')
+#suppression caractères spéciaux qui délimitent les noms ajouts de chaque artiste dans la liste
+rech=re.compile(r' ?[\+|•,-◆] ?')
 compteur=1
 while compteur >0 : 
     compteur=0
@@ -49,9 +51,15 @@ while compteur >0 :
                 liste.append(j)
 
 #on supprime les premières parties : 
-for i in liste : 
-    if i in ['1ere partie','1ère partie','première partie',r'[gG]uest'] : 
-        print(i)
+rech= re.compile(r"1[eè]re partie|première partie|[gG]uest")
+for index,i in enumerate(liste) : 
+    if a_suppr.findall(i)!=[] : 
+        liste.remove(i)
+
+
+a_suppr=re.compile(r'[fF]estival')
+for index,i in enumerate(liste) : 
+    if a_suppr.findall(i)!=[] : 
         liste.remove(i)
 
 print('---------------------------------------------------------')

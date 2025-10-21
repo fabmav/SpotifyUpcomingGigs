@@ -1,6 +1,3 @@
-#Brouillon
-#* test avec les url des genres
-#* 2024-01-27 test validé en ouvrant et fermant autant de fois le browser qu'il y a de pages à scrapper
 from random import randint
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -12,20 +9,21 @@ import random
 import re
 
 
-
-url_liste =['https://dice.fm/browse/paris/music/gig/indie',
-            'https://dice.fm/browse/paris/music/gig/rock',
-            'https://dice.fm/browse/paris/music/gig/alternative',
-            'https://dice.fm/browse/paris/music/gig/indiepop',
-            'https://dice.fm/browse/paris/music/gig/postpunk',
-            'https://dice.fm/browse/paris/music/gig/indierock',
-            'https://dice.fm/browse/paris/music/gig/punk',
-            'https://dice.fm/browse/paris/music/gig/folk',
-            'https://dice.fm/browse/paris/music/gig/metal',
-            'https://dice.fm/browse/paris/music/gig/french_pop',
-            'https://dice.fm/browse/paris/music/gig/poprock',
-            'https://dice.fm/browse/paris/music/gig/garage',
-            'https://dice.fm/browse/paris/music/gig/alt_rock']
+#TODO cette liste de lien ne fonctionne pas.
+#TODO scanner les liens du site et les matcher avec une liste de terme pour avoir plus de felxibilité
+url_liste =['https://dice.fm/browse/paris-5b23e8a0e63cc224a4c36a2d/music/gig/indie',
+            'https://dice.fm/browse/paris-5b23e8a0e63cc224a4c36a2d/music/gig/rock',
+            'https://dice.fm/browse/paris-5b23e8a0e63cc224a4c36a2d/music/gig/alternative',
+            'https://dice.fm/browse/paris-5b23e8a0e63cc224a4c36a2d/music/gig/indiepop',
+            'https://dice.fm/browse/paris-5b23e8a0e63cc224a4c36a2d/music/gig/postpunk',
+            'https://dice.fm/browse/paris-5b23e8a0e63cc224a4c36a2d/music/gig/indierock',
+            'https://dice.fm/browse/paris-5b23e8a0e63cc224a4c36a2d/music/gig/punk',
+            'https://dice.fm/browse/paris-5b23e8a0e63cc224a4c36a2d/music/gig/folk',
+            'https://dice.fm/browse/paris-5b23e8a0e63cc224a4c36a2d/music/gig/metal',
+            'https://dice.fm/browse/paris-5b23e8a0e63cc224a4c36a2d/music/gig/french_pop',
+            'https://dice.fm/browse/paris-5b23e8a0e63cc224a4c36a2d/music/gig/poprock',
+            'https://dice.fm/browse/paris-5b23e8a0e63cc224a4c36a2d/music/gig/garage',
+            'https://dice.fm/browse/paris-5b23e8a0e63cc224a4c36a2d/music/gig/alt_rock']
 
 liste=[]
 for url in url_liste : 
@@ -39,10 +37,10 @@ for url in url_liste :
     autorize = driver.find_elements(By.CSS_SELECTOR,'.ch2-dialog-actions button')
     for auth in autorize : 
         if auth.text == 'Autoriser tous les cookies' :
-            print('trouvé')
+            print('bouton cookie trouvé')
             print(auth.text)
             auth.click()
-            print('cliqué')
+            print('bouton coockie cliqué')
     
     # Wait for the button to be clickable (you can adjust the timeout as needed)
     # wait = WebDriverWait(driver, 10)
@@ -51,14 +49,18 @@ for url in url_liste :
     sleep(random.uniform(1,5))
 
     print(driver.current_url)
+    
 
-
+#TODO n'affiche pas d'erreur si il ne trouve pas de bouton
     while True : 
-        boutons = driver.find_elements(By.CSS_SELECTOR,'.jNbrtB')
+        boutons = driver.find_elements(By.CSS_SELECTOR,'.kmEjJP')
         compteur=0
         for bouton in boutons : 
+            # print(bouton.text)
+            #TODO faire un regex sur le voir plus
             if bouton.text == 'VOIR PLUS' : 
-                print('trouvé')
+                # print(bouton)
+                print('Bouton voir plus trouvé')
                 bouton.click()
                 sleep(random.uniform(1,5))
                 compteur+=1
@@ -68,11 +70,11 @@ for url in url_liste :
     sleep(random.uniform(1,5))
 
     #*le css selector des artistes de l'event
-    elements_name = driver.find_elements(By.CSS_SELECTOR,'.ceDQau')
+    elements_name = driver.find_elements(By.CSS_SELECTOR,'.lpbnCo')
     #*le css selector de la date de l'event  
-    elements_date = driver.find_elements(By.CSS_SELECTOR,'.fyreNE')
+    elements_date = driver.find_elements(By.CSS_SELECTOR,'.krokMv')
     #*le css selector de la salle .VzsZc
-    elements_salle = driver.find_elements(By.CSS_SELECTOR,'.hIPJXy')
+    elements_salle = driver.find_elements(By.CSS_SELECTOR,'.bZgCvI')
     # elements_genre =   
 
     names = [element for element in elements_name]

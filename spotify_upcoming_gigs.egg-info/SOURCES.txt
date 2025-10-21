@@ -1,7 +1,13 @@
+README.md
+pyproject.toml
 setup.py
+func/DiceFunc.py
+func/MarieDeParisFunc.py
 func/PackTest.py
-func/SowProgFunctions.py
+func/SowprogFunc.py
+func/TmasterFuntions.py
 func/__init__.py
+func/config.py
 func/dbfunc.py
 func/shared.py
 func/spotifyfunc.py
