@@ -8,8 +8,8 @@ from time import time, sleep
 import random
 import re
 from func import DB
-from func.DiceFunc import regex_dice_list
-from func.shared import write_to_db_lite
+from func.DiceFunc import regex_dice_list,get_dice_date
+from func.shared import write_to_db_lite,replace_data
 
 #TODO cette liste de lien ne fonctionne pas.
 #TODO scanner les liens du site et les matcher avec une liste de terme pour avoir plus de felxibilité
@@ -98,6 +98,8 @@ liste=liste2[::]
 print(liste[:3])
 
 liste_def = regex_dice_list(liste)
+liste_def = replace_data(liste_def,2,get_dice_date)
+
 print(liste_def[:3])
 QUERY = '''INSERT INTO evenements (
                 nom_evenement,

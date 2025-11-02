@@ -1,5 +1,28 @@
 #Brouillon
 import re
+import datetime
+
+MONTH = {'janv' : 1,
+        'févr' : 2,
+        'mars' : 3, 
+        'avr' : 4, 
+        'mai' : 5,
+        'juin' : 6,
+        'juil' : 7,
+        'août' : 8,
+        'sep' : 9,
+        'oct' : 10,
+        'nov' : 11,
+        'déc' : 12}
+
+DAY = {'lun' : 1,
+       'mar' : 2,
+       'mer' : 3,
+       'jeu' : 4,
+       'ven' : 5,
+       'sam' : 6,
+       'dim' : 7}
+
 
 def regex_dice_list (liste) : 
     '''ensemble of regex used to edit dice concert list. The aim is to split event name into the different artist in the event
@@ -53,7 +76,7 @@ def regex_dice_list (liste) :
     #on supprime les premières parties : 
     rech= re.compile(r"1[eè]re partie|première partie|[gG]uest")
     for index,item in enumerate(liste) : 
-        if a_suppr.findall(item[1])!=[] : 
+        if rech.findall(item[1])!=[] : 
             liste.remove(item)
 
 
@@ -111,7 +134,7 @@ def regex_dice_base (liste) :
     #on supprime les premières parties : 
     rech= re.compile(r"1[eè]re partie|première partie|[gG]uest")
     for index,i in enumerate(liste) : 
-        if a_suppr.findall(i)!=[] : 
+        if rech.findall(i)!=[] : 
             liste.remove(i)
 
 
@@ -121,6 +144,22 @@ def regex_dice_base (liste) :
             liste.remove(i)
 
     return liste
+
+
+def get_dice_date(date) : 
+    search = re.compile(r'[\w\.]{4}[ ][\d]{1,2}[ ][\w\.]{3,4}[ \d]*')
+    search_result = search.match(date)
+    if search_result == None : 
+        date_def = date
+    else : 
+        date_parsed = re.split(pattern=r' |\. ?',string=date)
+        if date_parsed[-1] =='' : 
+            date_parsed.pop(-1)
+        year_def = datetime.datetime.now().year if len(date_parsed)==3 else int(date_parsed[3])
+        date_int = int(date_parsed[1])
+        date_def = datetime.datetime(year=year_def,month=MONTH[date_parsed[2]],day=int(date_parsed[1]))
+    
+    return date_def
 
 if __name__ == '__main__' :
     None

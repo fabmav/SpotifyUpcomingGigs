@@ -102,7 +102,10 @@ def get_tmaster_data_full(page,url) :
                 event_date = embedded["dates"]["start"]["localDate"]
             except Exception as e : 
                 event_date=""
-            event_description = embedded["description"]
+            try :
+                event_description = embedded["description"]
+            except Exception as e :
+                event_description = ""
             event_genre = embedded["classifications"][0]["genre"]["name"]
             event_subgenre = embedded["classifications"][0]["subGenre"]["name"]
             a=embedded["_embedded"]

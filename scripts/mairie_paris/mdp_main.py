@@ -4,7 +4,7 @@ import requests
 import json
 import os
 from func.MarieDeParisFunc import get_mdp_data
-import mistralai
+# import mistralai
 from openai import OpenAI, api_key
 from dotenv import load_dotenv
 
@@ -30,7 +30,7 @@ for count,item in enumerate(test.keys()) :
 
     response = client.responses.create(
             model="gpt-4.1",
-            input=f'based on the info from {test[item]} find the artists playing in this concert or festival. Then, find the spotify uri of these artists. output : python list with ["artist name","spotify uri"]. No explanations. No extra text, list only'
+            input=f'based on the info from {test[item]} find the artists playing in this concert or festival. Then, find the spotify uri of these artists. output : python list with ["event title","artist name","event date","spotify uri"] no embedded list, each item of the list is a separate artist even if there are multiple artist in the event. No explanations. No extra text, list only'
         )
     print(response.output_text)
     if count>5 :

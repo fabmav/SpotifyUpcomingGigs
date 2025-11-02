@@ -83,5 +83,13 @@ def julian_date (date) :
         jul_dat=date[-4:]+"-"+date[3:5]+"-"+date[:2]
         return jul_dat
 
+def replace_data(liste,pos,func) : 
+    for index,item in enumerate(liste) : 
+        new = func(item[pos])
+        item.pop(pos)
+        item.insert(pos,new)
+    return liste
+
+
 if __name__ == "__main__" : 
     None
