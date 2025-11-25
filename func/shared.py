@@ -5,6 +5,12 @@ import re
 
 logger = logging.getLogger(__name__)
 
+DICT_QUERY = {'query_uri' : 'SELECT rowid, artiste, uri_artiste FROM evenements',
+              'query_raw' : 'SELECT rowid,* FROM evenements',
+              'query_delete_all' : 'DELETE FROM evenements',
+              'query_single_row' : 'SELECT * FROM evenements WHERE rowid = ',
+            }
+
 #DECORATORS
 def write_to_file(file) : 
     def decorator(func) : 
@@ -73,7 +79,21 @@ def write_to_db_lite(db,query,request_output) :
     cursor.close()
     conn.close()
 
-
+def fetch_from_db_lite(db,query) : 
+    conn= sqlite3.connect(db)
+    cursor = conn.cursor()
+    # Execute the SQL statement to insert multiple rows of data
+    try :
+        cursor.execute(query)
+        data = cursor.fetchall()
+        return data
+    except Exception as e : 
+        print(e)
+    # Commit the changes to the database
+    # Close the cursor and the connection
+    cursor.close()
+    conn.close()
+    
 
 def julian_date (date) : 
     jul_detector = re.compile(r'\d{4}-\d{2}-\d{2}')

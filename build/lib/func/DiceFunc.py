@@ -10,7 +10,7 @@ MONTH = {'janv' : 1,
         'juin' : 6,
         'juil' : 7,
         'août' : 8,
-        'sep' : 9,
+        'sept' : 9,
         'oct' : 10,
         'nov' : 11,
         'déc' : 12}

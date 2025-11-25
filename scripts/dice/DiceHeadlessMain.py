@@ -4,6 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.edge.options import Options
 from time import time, sleep
 import random
 import re
@@ -33,8 +34,11 @@ liste=[]
 for url in url_liste : 
 
     sleep(random.uniform(20,31))
-
-    driver = webdriver.Edge()
+    options = Options()
+    options.add_argument("--headless")  # Mode sans interface
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--window-size=1600,1024")
+    driver = webdriver.Edge(options=options)
     driver.get(url)
 
     sleep(random.uniform(1,5))

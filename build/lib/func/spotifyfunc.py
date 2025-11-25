@@ -12,6 +12,8 @@ from datetime import*
 from dateutil.parser import isoparse
 import logging
 
+REGEX_URI = re.compile(r'[a-zA-Z0-9]{22}')
+
 logger = logging.getLogger(__name__)
 
 def get_current_token() : 
